@@ -2,8 +2,9 @@ import pandas as pd
 import joblib
 
 # Загрузка тестового файла
-test_file_path = 'C:/Users/SAPIPA/Desktop/test_file.xlsx'
+test_file_path = 'test_file.xlsx'
 test_df = pd.read_excel(test_file_path)
+
 
 # Преобразуем 'Дата' в формат datetime
 test_df['Дата'] = pd.to_datetime(test_df['Дата'])
@@ -12,6 +13,7 @@ test_df = test_df.sort_values('Дата')
 
 # Выделим признаки и целевую переменную
 X = test_df.drop(['Дата', 'Объем'], axis=1)
+print(X)
 
 # Загрузка обученной модели
 xgb_model = joblib.load('xgb_model.pkl')

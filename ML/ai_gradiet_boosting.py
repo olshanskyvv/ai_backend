@@ -1,3 +1,4 @@
+import joblib
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import xgboost as xgb
@@ -5,7 +6,7 @@ import xgboost as xgb
 from ML.data_reader import load_dataset
 
 
-X_train_scaled, X_test_scaled, y_train, y_test = load_dataset()
+X_train_scaled, X_test_scaled, y_train, y_test, scaler = load_dataset()
 
 # Шаг 4: Обучение модели градиентного бустинга
 xgb_model = xgb.XGBRegressor(random_state=42)
@@ -13,6 +14,9 @@ xgb_model.fit(X_train_scaled, y_train)
 
 # Шаг 5: Прогноз и оценка модели градиентного бустинга
 y_pred_xgb = xgb_model.predict(X_test_scaled)
+
+joblib.dump(xgb_model, 'xgb_model.pkl')
+joblib.dump(scaler, 'scaler.pkl')
 
 # Оценка модели
 mse_xgb = mean_squared_error(y_test, y_pred_xgb)
