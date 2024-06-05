@@ -15,7 +15,7 @@ def load_dataset(file_path: str = 'file.xlsx'):
     # Шаг 3: Подготовка данных
 
     # Преобразуем категориальные переменные в числовые
-    df = pd.get_dummies(df, columns=['Дорога', 'Услуга', 'Транспорт'], drop_first=True)
+    df = pd.get_dummies(df, columns=['Дорога', 'Услуга', 'Транспорт'], drop_first=False)
 
     # Преобразуем 'Дата' в формат datetime
     df['Дата'] = pd.to_datetime(df['Дата'])
