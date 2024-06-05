@@ -24,7 +24,8 @@ services = [
     'Услуги КР подвижного состава',
     'Услуги ТО подвижного состава',
     'Услуги ТР подвижного состава',
-    'Услуги по управлению ПС'
+    'Услуги по управлению ПС',
+    # 'Аренда транспорта',
 ]
 transports = [
     'МВПС',
@@ -32,9 +33,15 @@ transports = [
     'Скоростные поезда "Ласточка"',
     'Тепловозная тяга',
     'ЦМВ',
-    'Электровозная тяга'
+    'Электровозная тяга',
+    # 'Дизельная тяга',
 ]
-
+roads = [
+    'Куйбышевская',
+    'Октябрьская',
+    'Свердловская',
+    # 'Горьковская',
+]
 
 @app.get("/services")
 async def get_services() -> dict[str, list[str]]:
@@ -46,11 +53,19 @@ async def get_transports() -> dict[str, list[str]]:
     return {"transports": transports}
 
 
+@app.get("/roads")
+async def get_roads() -> dict[str, list[str]]:
+    return {"roads": roads}
+
+
 @app.get("/predict")
 async def predict(service: str,
                   transport: str,
+                  road: str,
                   date: date) -> dict[str, float]:
-    if (service not in services) or (transport not in transports):
+    if ((service not in services)
+            or (transport not in transports)
+            or (road not in roads)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
     date_data = {
@@ -60,7 +75,9 @@ async def predict(service: str,
     print(ss)
     ts = {'Транспорт_' + t: transport == t for t in transports}
     print(ts)
-    data = {**date_data, **ss, **ts}
+    rs = {'Дорога_' + r: road == r for r in roads}
+    print(rs)
+    data = {**date_data, **rs, **ss, **ts}
     x = pd.DataFrame([data])
     x_scaled = scaler.transform(x)
 

@@ -10,7 +10,7 @@ Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8000/predict?service=Услуги КР подвижного состава&transport=МВПС&date=2024-01-01
+GET http://127.0.0.1:8000/predict?service=Услуги КР подвижного состава&transport=МВПС&date=2024-01-01&road=Октябрьская
 Accept: application/json
 
 ###
